@@ -123,31 +123,31 @@
 								<h3 class="title">Contact Info</h3>
 								<p class="short_desc"> </p>
 
-								<h4>Address:</h4>
-								<p>43, Gayatri nagar, Walwadi, Deopur, Dhule 424 002</p>
-								<h4>Phone:</h4>
-								<p>+91-9423524509</p>
-								<h4>Email:</h4>
-								<p>chaudharisarvesh.1999@gmail.com</p>
+								<h2>Address:</h2>
+								<h3 style="color: #2a2a2a;"><a class="cont" href="https://www.google.com/maps/place/20%C2%B055'26.9%22N+74%C2%B045'31.3%22E/@20.9241393,74.7581358,161m/data=!3m2!1e3!4b1!4m22!1m15!4m14!1m6!1m2!1s0x3bdec59d781eac67:0x6d02bd800eae0cb4!2sDhule+Stadium,+Dhule,+Maharashtra!2m2!1d74.7658347!2d20.9248827!1m6!1m2!1s0x3bdec50a14bfcb29:0xc200ffc328f64c67!2sChavara+English+Medium+School,+Wadibhokar+Road,+Shivaji+nagar,+Wadibhokar,+Walwadi,+Maharashtra!2m2!1d74.7525888!2d20.9254391!3m5!1s0x0:0x0!7e2!8m2!3d20.9241382!4d74.7586826" target="_blank"><i class="fa fa-map-marker fa-lg pr-3"></i>43, Gayatri nagar, Walwadi, Deopur,<br> <t class="pl-4">Dhule-424002, Mahrashtra, India</t></a></h3>
+								<h2>Phone:</h2>
+								<h3 style="color: #2a2a2a;"><a class="cont" href="tel: +919423524509" style="content: none"><i class="fa fa-phone fa-lg pr-3"></i>+91-9423524509</h3>
+								<h2>Email:</h2>
+								<h3 style="color: #2a2a2a;"><a class="cont" href="mailto: chaudharisarvesh.1999@gmail.com"><i class="fa fa-envelope fa-lg pr-3"></i>chaudharisarvesh.1999@gmail.com</a></h3>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="contact_form">
 								<h3 class="title">send me an email</h3>
 								<!-- Form -->
-								<form action="javascript:send()" method="POST">
+								<form action="javascript:send()" method="POST" id="contactForm">
 									<div class="row">
 										<div class="col-lg-6">
 											<div class="input_field">
-												<input type="text" name="name" id="name" class="form-control"
-													placeholder="Name">
+												<input type="text" name="name" id="name" pattern="[A-Za-z ]{3,32}" class="form-control"
+													placeholder="Name" title="Please enter a valid Name." required>
 												<label for="Name">Name</label>
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="input_field">
-												<input type="text" name="subject" id="subject" class="form-control"
-													placeholder="Subject">
+												<input type="text" name="subject" id="subject" pattern="{10,50}" class="form-control"
+													placeholder="Subject" title="Please enter a descriptive Subject i.e 3 words or more." required>
 												<label for="Subject">Subject</label>
 											</div>
 										</div>
@@ -155,14 +155,14 @@
 										<div class="col-lg-6">
 											<div class="input_field">
 												<input type="email" name="email" id="email" class="form-control"
-													placeholder="Email">
+													placeholder="Email" required>
 												<label for="Email">Email</label>
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="input_field">
-												<input type="text" name="phone" id="phone" class="form-control"
-													placeholder="Phone">
+												<input type="text" name="phone" id="phone" pattern="[789][0-9]{9}" class="form-control"
+													placeholder="Phone" title="Please enter a valid Phone No." required>
 												<label for="Phone">Phone</label>
 											</div>
 										</div>
@@ -170,7 +170,7 @@
 											<div class="input_field">
 												<textarea type="text" name="message" id="message"
 													class="form-control md-textarea" rows="3"
-													placeholder="Message"></textarea>
+													placeholder="Message" pattern="{10,150}" title="Please enter a Message with more than 5 words." required></textarea>
 												<label for="Message">Message</label>
 											</div>
 
@@ -228,10 +228,40 @@
 	<script src="https://smtpjs.com/v3/smtp.js"></script>
 	<script src="../assets/js/pass.js"></script>
 	<script>
+		$(document).ready(function () {
+				var errorMessage = "Please enter a Message with more than 5 words.";
+
+				$(this).find("textarea").on("input change propertychange", function () {
+
+					var pattern = $(this).attr("pattern");
+
+					if (typeof pattern !== typeof undefined && pattern !== false) {
+						var patternRegex = new RegExp("^" + pattern.replace(/^\^|\$$/g, '') + "$", "g");
+
+						hasError = !$(this).val().match(patternRegex);
+
+						if (typeof this.setCustomValidity === "function") {
+							this.setCustomValidity(hasError ? errorMessage : "");
+						}
+						else {
+							$(this).toggleClass("error", !!hasError);
+							$(this).toggleClass("ok", !hasError);
+
+							if (hasError) {
+								$(this).attr("title", errorMessage);
+							}
+							else {
+								$(this).removeAttr("title");
+							}
+						}
+					}
+
+				});
+			});
 
 		function send() {
 			var name = $('#name').val();
-			var subject = $('#subject').val();
+			var subject = $('#subject');
 			var email = $('#email').val();
 			var phone = $('#phone').val();
 			var message = $('#message').val();

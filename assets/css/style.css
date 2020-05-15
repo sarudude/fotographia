@@ -119,6 +119,10 @@ a:hover, a:focus {
 	text-decoration: none;
 }
 
+a.cont {
+color: #2a2a2a;
+}
+
 /* -------- Headings ---------- */
 h1,
 .h1 {

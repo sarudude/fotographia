@@ -803,7 +803,6 @@ header p{
     line-height: 30px;
     z-index: 1;
     letter-spacing: 1px;
-    text-transform: uppercase;
     margin-bottom: 0px;
 }
 .header_two .nav_contact h6.phone{
